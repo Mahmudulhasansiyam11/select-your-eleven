@@ -2,8 +2,9 @@
 import { Suspense, useState } from 'react';
 import './App.css';
 import AvailablePlayers from './Components/AvailablePlayers/AvailablePlayers';
-import Navbar from './Components/Navbar/Navbar';
 import SelectedPlayers from './Components/SelectedPlayers/SelectedPlayers';
+import Navbar from './Components/Navbar/Navbar';
+
 
 const fetchPlayers = async () => {
     const res = await fetch('/Players.json');
@@ -17,7 +18,9 @@ function App() {
 
   const [toggle, setToggle] = useState(true);
   const [availableBalance, setAvailableBalance] = useState(6000000000);
+  const [purchasedPlayers, setPurchasedPlayers] = useState([]);
   
+  // console.log(purchasedPlayers);
 
   return (
     <>
@@ -32,9 +35,10 @@ function App() {
 
     {
       toggle === true ?  <Suspense fallback={<span className="loading loading-spinner loading-xl"></span>}>
-      <AvailablePlayers availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} fetchPlayersPromise={fetchPlayersPromise}></AvailablePlayers>
-    </Suspense> : <SelectedPlayers></SelectedPlayers>
-    }
+      <AvailablePlayers availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} 
+      purchasedPlayers={purchasedPlayers} setPurchasedPlayers={setPurchasedPlayers} fetchPlayersPromise={fetchPlayersPromise}></AvailablePlayers>
+    </Suspense> : <SelectedPlayers purchasedPlayers={purchasedPlayers}></SelectedPlayers>
+    };
     </>
   )
 }
